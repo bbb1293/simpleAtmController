@@ -9,7 +9,7 @@
 using namespace std;
 
 int insertCard(map<string, User>& users, User& user) {
-    cout << "\nInsert your card\n";
+    cout << "\nInsert your card (####-####-####-####)\n";
     string cardNumber;
     cin >> cardNumber;
     cout << "... processing\n";
@@ -36,7 +36,7 @@ int checkPinNumber(User& user) {
         return EXIT;
     }
 
-    cout << "\nType your pin number\n";
+    cout << "\nType your pin number (4-6 length)\n";
     int pinNumber;
     cin >> pinNumber;
     cout << "... processing\n";
