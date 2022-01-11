@@ -6,9 +6,7 @@
 #define ACCOUNTSELECTION 3
 #define BANKING 4
 
-using namespace std;
-
-int insertCard(map<string, User>& users, User& user) {
+int insertCard(map<string, User>& users, User** user) {
     cout << "\nInsert your card (####-####-####-####)\n";
     string cardNumber;
     cin >> cardNumber;
@@ -24,14 +22,14 @@ int insertCard(map<string, User>& users, User& user) {
         return CARDINSERTION;
     }
 
-    user = users[cardNumber];
-    cout << "Welcome " << user.getUserName() << "\n";
+    *user = &users[cardNumber];
+    cout << "Welcome " << (*user)->getUserName() << "\n";
     return CHECKINGPINNUMBER;
 }
 
-int checkPinNumber(User& user) {
-    if (user.getWrongCount() == 5) {
-        cout << user.getUserName()
+int checkPinNumber(User* user) {
+    if (user->getWrongCount() == 5) {
+        cout << user->getUserName()
              << "'s account is locked because of 5 invalid attempts\n";
         return EXIT;
     }
@@ -42,25 +40,25 @@ int checkPinNumber(User& user) {
     cout << "... processing\n";
 
     if (!User::isValidPinNumber(pinNumber) ||
-        user.getPinNumber() != pinNumber) {
+        user->getPinNumber() != pinNumber) {
         string warning = (!User::isValidPinNumber(pinNumber))
                              ? "Invalid pin number\n"
                              : "Wrong pin number\n";
         cout << warning;
-        user.addWrongCount();
+        user->addWrongCount();
         return CHECKINGPINNUMBER;
     }
 
-    user.resetWrongCount();
-    cout << "Welcome " << user.getUserName() << "!\n";
+    user->resetWrongCount();
+    cout << "Welcome " << user->getUserName() << "!\n";
 
     return ACCOUNTSELECTION;
 }
 
-int selectAccount(User& user, Account& account) {
+int selectAccount(User* user, Account** account) {
     cout << "\nSelect the account you want\n";
 
-    vector<Account> accounts = user.getAccounts();
+    vector<Account> accounts = user->getAccounts();
     for (int i = 0; i < accounts.size(); i++) {
         cout << i + 1 << ". " << accounts[i].getAccountInfo() << '\n';
     }
@@ -78,14 +76,17 @@ int selectAccount(User& user, Account& account) {
         return ACCOUNTSELECTION;
     }
 
-    account = user.getAccount(accountIdx - 1);
-    cout << "You select " << account.getAccountInfo() << '\n';
-
-    return BANKING;
+    *account = user->getAccount(accountIdx - 1);
+    if (account != NULL) {
+        cout << "You select " << (*account)->getAccountInfo() << '\n';
+        return BANKING;
+    }
+    cout << "ERROR" << '\n';
+    return ACCOUNTSELECTION;
 }
 
-int bank(Account& account) {
-    cout << "\nWith " << account.getAccountInfo() << ", you can\n";
+int bank(Account* account) {
+    cout << "\nWith " << account->getAccountInfo() << ", you can\n";
     vector<string> options{"See the balance", "Deposit", "Withdraw",
                            "Go to the previous page"};
 
@@ -108,24 +109,24 @@ int bank(Account& account) {
         case Exit:
             return EXIT;
         case Balance:
-            cout << "Your balance is $" << account.getBalance() << '\n';
+            cout << "Your balance is $" << account->getBalance() << '\n';
             break;
         case Deposit:
             cout << "\nHow much would you like to deposit\n";
             cin >> money;
-            account.depositBalance(money);
-            cout << "\nYour balance becomes $" << account.getBalance()
-                 << " from $" << account.getBalance() - money << '\n';
+            account->depositBalance(money);
+            cout << "\nYour balance becomes $" << account->getBalance()
+                 << " from $" << account->getBalance() - money << '\n';
             break;
         case Withdrawal:
             cout << "\nHow much would you like to withdraw\n";
             cin >> money;
-            if (account.withdrawBalance(money) == -1) {
-                cout << "\nYour balance is $" << account.getBalance()
+            if (account->withdrawBalance(money) == -1) {
+                cout << "\nYour balance is $" << account->getBalance()
                      << ", less than $" << money << '\n';
             } else {
-                cout << "\nYour balance becomes $" << account.getBalance()
-                     << " from $" << account.getBalance() + money << '\n';
+                cout << "\nYour balance becomes $" << account->getBalance()
+                     << " from $" << account->getBalance() + money << '\n';
             }
             break;
         case AccountSelection:
@@ -137,13 +138,13 @@ int bank(Account& account) {
 
 void run(map<string, User>& users) {
     int process = CARDINSERTION;
-    User user;
-    Account account;
+    User* user = NULL;
+    Account* account = NULL;
 
     while (process != EXIT) {
         switch (process) {
             case CARDINSERTION:
-                process = insertCard(users, user);
+                process = insertCard(users, &user);
                 break;
 
             case CHECKINGPINNUMBER:
@@ -151,7 +152,7 @@ void run(map<string, User>& users) {
                 break;
 
             case ACCOUNTSELECTION:
-                process = selectAccount(user, account);
+                process = selectAccount(user, &account);
                 break;
 
             case BANKING:

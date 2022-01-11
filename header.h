@@ -41,7 +41,7 @@ class User {
     int getPinNumber() const;
     int getWrongCount() const;
     vector<Account> getAccounts() const;
-    Account& getAccount(int idx);
+    Account* getAccount(int idx);
     void addWrongCount();
     void resetWrongCount();
     void setAccounts(vector<Account> accounts);
@@ -52,9 +52,9 @@ class User {
 
 map<string, User> getUsers();
 
-int insertCard(map<string, User>& users, User& user);
-int checkPinNumber(User& user);
-int selectAccount(User& user, Account& account);
-int bank(Account& account);
+int insertCard(map<string, User>& users, User** user);
+int checkPinNumber(User* user);
+int selectAccount(User* user, Account** account);
+int bank(Account* account);
 
 // #endif

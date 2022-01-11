@@ -54,7 +54,7 @@ int User::getWrongCount() const { return this->wrongCount; }
 
 vector<Account> User::getAccounts() const { return this->accounts; }
 
-Account& User::getAccount(int idx) { return this->accounts[idx]; }
+Account* User::getAccount(int idx) { return &(this->accounts[idx]); }
 
 void User::addWrongCount() { this->wrongCount++; }
 
