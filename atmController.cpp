@@ -73,7 +73,6 @@ int selectAccount(User& user, Account& account) {
         return EXIT;
     }
 
-    cout << accountIdx << " " << accounts.size();
     if (accountIdx < 1 || accounts.size() < accountIdx) {
         cout << "Invalid input\n";
         return ACCOUNTSELECTION;
