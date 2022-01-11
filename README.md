@@ -11,11 +11,12 @@ git clone https://github.com/bbb1293/simpleAtmController.git
 
 ## usage
 
+Type in bash
 ```bash
 ./atmController.exe
 ```
 
-Or, if you want to recompile the source files (if you have a c++ compiler in your device),
+or if you want to recompile the source files (if you have a c++ compiler in your device), type
 ```bash
 g++ atmController.cpp bankApi.cpp -o atmController
 ./atmController.exe
@@ -31,6 +32,8 @@ Insert your card (####-####-####-####)
 
 ### Insert Card
 
+You should type input which has valid format (####-####-####-####), and exists in bank system.
+
 If you type invalid input, then
 ```bash
 Insert your card (####-####-####-####)
@@ -41,7 +44,7 @@ Invalid card number!
 Insert your card (####-####-####-####)
 ```
 
-Or, if you type a card number which does not exist in bank system,
+or, if you type a card number which does not exist in bank system,
 ```bash
 Insert your card (####-####-####-####)
 4523-2346-4563-7856
@@ -51,7 +54,7 @@ You are not our user
 Insert your card (####-####-####-####)
 ```
 
-So, if you put a valid card number,
+If you put a valid card number,
 ```bash
 Insert your card (####-####-####-####)
 1111-2222-3333-4444
@@ -62,6 +65,9 @@ Type your pin number (4-6 length)
 ```
 
 ### Check Pin Number
+
+You should type right pin number corresponding to your card number.
+
 If you type invalid input,
 ```bash
 Type your pin number (4-6 length)
@@ -136,7 +142,7 @@ With Saving Account, you can
 ```
 
 ### Bank
-Of course, you can exit the program by typing 0.
+Of course, you can exit the program anytime by typing 0.
 ```bash
 With Saving Account, you can
 1. See the balance
@@ -149,7 +155,7 @@ With Saving Account, you can
 See you next time!
 ```
 
-If you want to check current balance, type 1
+If you want to check the current balance, type 1
 ```bash
 With Saving Account, you can
 1. See the balance
@@ -159,17 +165,13 @@ With Saving Account, you can
 0. Exit
 
 1
-Your balance is \$500
+Your balance is $500
 
 With Saving Account, you can
-1. See the balance
-2. Deposit
-3. Withdraw
-4. Go to the previous Page
-0. Exit
+...
 ```
 
-If you want to deposit, type 2, and type the money you want to deposit
+If you want to deposit, type 2, and type the money you want
 ```bash
 With Saving Account, you can
 1. See the balance
@@ -183,12 +185,13 @@ With Saving Account, you can
 Hou much would you like to deposit
 100
 
-Your balance becomes \$600 from \$500
+Your balance becomes $600 from $500
 
+With Saving Account, you can
 ...
 ```
 
-If you want to withdraw, type 3, and type the money you want to withdraw
+If you want to withdraw, type 3, and type the money you want
 ```bash
 With Saving Account, you can
 1. See the balance
@@ -202,9 +205,10 @@ With Saving Account, you can
 Hou much would you like to withdraw
 100
 
-Your balance becomes \$500 from \$600
+Your balance becomes $500 from $600
 
-With Saving...
+With Saving Account, you can
+...
 ```
 
 However, if you type the money larger than the balance,
@@ -221,9 +225,9 @@ With Saving Account, you can
 Hou much would you like to withdraw
 100
 
-Your balance is \$500, less than \$10000 
+Your balance is $500, less than $10000 
 
-With Saving...
+With Saving Account, you can
 ```
 and, nothing happens
 
